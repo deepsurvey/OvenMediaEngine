@@ -5,6 +5,7 @@ services:
     build:
       context: .
     image: airensoft/ovenmediaengine:latest
+    restart: always
     ports:
     - "1935:1935/tcp"
     - "3333:3333/tcp"
@@ -14,6 +15,9 @@ services:
     - "9999:9999/udp"
     - "4000-4005:4000-4005/udp"
     - "10006-10010:10006-10010/udp"
+    volumes:
+    - /home/deep/OvenMediaEngine/appdata/ome-origin-conf:/opt/ovenmediaengine/bin/origin_conf
+
     environment:
     - OME_ORIGIN_PORT=9000
     - OME_RTMP_PROV_PORT=1935
@@ -24,6 +28,7 @@ services:
     - OME_SIGNALLING_PORT=3333
     - OME_TCP_RELAY_ADDRESS=*:3478
     - OME_ICE_CANDIDATES=*:10006-10010/udp
+    env_file: .env
     command: /opt/ovenmediaengine/bin/OvenMediaEngine -c origin_conf
 
   edge:
